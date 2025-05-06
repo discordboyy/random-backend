@@ -12,7 +12,7 @@ let currentValue = 10.0;
 // Создаем таблицу, если нет
 db.serialize(() => {
   db.run(`
-    CREATE TABLE IF NOT EXISTS values (
+    CREATE TABLE IF NOT EXISTS records (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       timestamp TEXT NOT NULL,
       value REAL NOT NULL,
