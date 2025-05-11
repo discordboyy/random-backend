@@ -25,8 +25,7 @@ db.serialize(() => {
   `);
 });
 
-// Генерация изменения
-function getRandomChange() {
+function getRandomChange(currentValue) {
   if (Math.random() < 0.01) {
     const change = currentValue / 2;
     return Math.random() < 0.5 ? -change : change;
@@ -35,6 +34,24 @@ function getRandomChange() {
     return Math.random() < 0.5 ? -change : change;
   }
 }
+
+function boostIfTooLow() {
+  if (currentValue < 1) {
+    for (let i = 0; i < 3; i++) {
+      const boost = Math.random() * 0.73;
+      currentValue += boost;
+      console.log(`💡 Boosted by +${boost.toFixed(2)} → ${currentValue.toFixed(2)}`);
+    }
+  }
+}
+
+setInterval(() => {
+  const change = getRandomChange(currentValue);
+  currentValue += change;
+  console.log(`Change: ${change.toFixed(2)} → Current: ${currentValue.toFixed(2)}`);
+
+  boostIfTooLow();
+}, 1000);
 
 // Обновление значения каждую секунду
 setInterval(() => {
