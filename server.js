@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors'); // Добавлено для разрешения CORS
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors()); // Включение CORS
 
 const db = new sqlite3.Database(path.join(__dirname, 'data.db'));
 
