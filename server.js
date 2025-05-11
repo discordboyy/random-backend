@@ -44,7 +44,7 @@ setInterval(() => {
   };
 
   db.run(
-    `INSERT INTO values (timestamp, value, change) VALUES (?, ?, ?)`,
+    `INSERT INTO records (timestamp, value, change) VALUES (?, ?, ?)`,
     [entry.timestamp, entry.value, entry.change]
   );
 }, 1000);
@@ -52,12 +52,12 @@ setInterval(() => {
 // Очистка старых записей (раз в час)
 setInterval(() => {
   const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  db.run(`DELETE FROM values WHERE timestamp < ?`, [cutoff]);
+  db.run(`DELETE FROM records WHERE timestamp < ?`, [cutoff]);
 }, 60 * 60 * 1000);
 
 // API: получить последнее значение
 app.get('/api/latest', (req, res) => {
-  db.get(`SELECT * FROM values ORDER BY timestamp DESC LIMIT 1`, [], (err, row) => {
+  db.get(`SELECT * FROM records ORDER BY timestamp DESC LIMIT 1`, [], (err, row) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(row);
   });
@@ -65,7 +65,7 @@ app.get('/api/latest', (req, res) => {
 
 // API: получить всю историю
 app.get('/api/data', (req, res) => {
-  db.all(`SELECT * FROM values ORDER BY timestamp ASC`, [], (err, rows) => {
+  db.all(`SELECT * FROM records ORDER BY timestamp ASC`, [], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(rows);
   });
