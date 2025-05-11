@@ -55,7 +55,7 @@ setInterval(() => {
 
 // Обновление значения каждую секунду
 setInterval(() => {
-  const change = getRandomChange();
+  const change = getRandomChange(currentValue);
   currentValue += change;
 
   const entry = {
