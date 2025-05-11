@@ -1,6 +1,7 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const cors = require('cors');  // Подключаем CORS
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 const db = new sqlite3.Database(path.join(__dirname, 'data.db'));
 
 let currentValue = 10.0;
+
+// Применяем CORS middleware
+app.use(cors());  // Это разрешит CORS для всех доменов
 
 // Создаем таблицу, если нет
 db.serialize(() => {
